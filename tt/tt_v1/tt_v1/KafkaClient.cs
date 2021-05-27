@@ -13,6 +13,7 @@ namespace Subscriber
 
         string _topic;
         ProducerConfig _producerConfig;
+        private ConsumerConfig _consumer;
         IProducer<string, string> _producer;
 
         public KafkaClient(string bootstrapServers, string topic)

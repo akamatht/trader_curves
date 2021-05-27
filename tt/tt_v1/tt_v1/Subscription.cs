@@ -12,15 +12,15 @@ namespace tt_v1
         PriceSubscription _pxSub = null;
         IObserver<TTData> _obsvr;
         IObserver<FieldsUpdatedEventArgs> _obsvrRaw;
-        public Subscription(Instrument instr, Dispatcher dsptr, IObserver<TTData> obsvr) {
+        public Subscription(Instrument instr, Dispatcher dsptr, PriceSubscriptionType priceSubscriptionType, IObserver<TTData> obsvr) {
             _obsvr = obsvr;
             _pxSub = new PriceSubscription(instr, dsptr) {
-                Settings = new PriceSubscriptionSettings(PriceSubscriptionType.MarketDepth)
+                Settings = new PriceSubscriptionSettings(priceSubscriptionType)
             };
             _pxSub.FieldsUpdated += PxSub_FieldsUpdated;
             _pxSub.Start();
         }
-        public Subscription(Instrument instr, Dispatcher dsptr, IObserver<FieldsUpdatedEventArgs> obsvr) {
+        public Subscription(Instrument instr, Dispatcher dsptr,  PriceSubscriptionType priceSubscriptionType, IObserver<FieldsUpdatedEventArgs> obsvr) {
             _obsvrRaw = obsvr;
             _pxSub = new PriceSubscription(instr, dsptr) {
                 Settings = new PriceSubscriptionSettings(PriceSubscriptionType.MarketDepth)

@@ -1,0 +1,145 @@
+{
+    "DefaultFields": [ "SettlementPrice", "IndicativeSettlPrc" ],
+    "Products": [
+{
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "TFO"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "LO"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OB"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OH"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "ON"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "GWM"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "TFM"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "BRN"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "G"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "HXE"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OG"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "SO"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OZW"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OZC"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OZS"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "CT"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "KC"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "CC"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "SB"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "ECF"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "WAY"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OZM"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "ES"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "OZL"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "PAO"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "PO"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "ICE",
+    "Code": "UKF"
+  },
+  {
+    "Type": "Option",
+    "Exchange": "CME",
+    "Code": "LNE"
+  }
+]
+}

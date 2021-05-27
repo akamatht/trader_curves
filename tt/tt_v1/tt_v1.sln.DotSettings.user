@@ -1,0 +1,5 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\dev\github\akamatht\trader_curves\tt\tt_v1\packages\TT.NET.SDK.3.0.0.41\lib\net461\tt-net-api.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=603aa2c9_002D1dc5_002D4a82_002Da0a8_002D3e34dfe4d203_0023rx_005Ftest/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
