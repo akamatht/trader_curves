@@ -12,7 +12,7 @@ using tt_net_sdk;
 
 namespace tt_v1
 {
-    public class TTQepSubscriber
+    public class LiveFuturesSubscriber
     {
         private KafkaClient _kafkaClient;
         private readonly WorkerDispatcher _dispatcher;
@@ -20,7 +20,7 @@ namespace tt_v1
         private IDictionary<string, string> qep2tt = new Dictionary<string, string>() { { "STAT", "STAT" } };
         private CompositeDisposable disposable = new CompositeDisposable();
 
-        public TTQepSubscriber(KafkaClient kafkaClient, WorkerDispatcher dispatcher)
+        public LiveFuturesSubscriber(KafkaClient kafkaClient, WorkerDispatcher dispatcher)
         {
             _kafkaClient = kafkaClient;
             _dispatcher = dispatcher;
@@ -83,7 +83,7 @@ namespace tt_v1
                     .Subscribe(d =>
                     {
                         Console.WriteLine("Data {0} {1}", d, Thread.CurrentThread.ManagedThreadId);
-                        var ttData = d.ToTTData();
+                        var ttData = FuturesExtension.ToTTData(d);
                         // return ttData;
                         _kafkaClient.Publish("dev-tt-prices-test", ttData.InstrumentName, JsonConvert.SerializeObject(ttData));
                         
@@ -97,7 +97,7 @@ namespace tt_v1
                     
                     
                 var cacheSubscription = baseSubscription
-                    .Select(f => f.ToTTData())
+                    .Select(f => FuturesExtension.ToTTData(f))
                     .ObserveOn(NewThreadScheduler.Default)
                     .Subscribe(d =>
                     {

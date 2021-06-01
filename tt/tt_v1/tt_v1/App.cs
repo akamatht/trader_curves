@@ -45,11 +45,11 @@ namespace tt_v1
             // kafkaClient.Run();
 
 
-            // var qepSubscriber = new TTQepSubscriber(kafkaClient, dispatcher);
-            // qepSubscriber.start();
+            var qepSubscriber = new LiveFuturesSubscriber(kafkaClient, dispatcher);
+            qepSubscriber.start();
 
-            var ttSettlesSubscriber = new TTSettlesSubscriber(kafkaClient, dispatcher);
-            ttSettlesSubscriber.start();
+            // var ttSettlesSubscriber = new TTSettlesSubscriber(kafkaClient, dispatcher);
+            // ttSettlesSubscriber.start();
             
             // Console.ReadLine();
             Console.WriteLine("{0}", Thread.CurrentThread.ManagedThreadId);

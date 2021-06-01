@@ -1,58 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
-using System.Reactive.Disposables;
 using tt_net_sdk;
 
 namespace tt_v1
 {
-    
-    public class Subscription : IDisposable {
-
-        PriceSubscription _pxSub = null;
-        IObserver<TTData> _obsvr;
-        IObserver<FieldsUpdatedEventArgs> _obsvrRaw;
-        public Subscription(Instrument instr, Dispatcher dsptr, PriceSubscriptionType priceSubscriptionType, IObserver<TTData> obsvr) {
-            _obsvr = obsvr;
-            _pxSub = new PriceSubscription(instr, dsptr) {
-                Settings = new PriceSubscriptionSettings(priceSubscriptionType)
-            };
-            _pxSub.FieldsUpdated += PxSub_FieldsUpdated;
-            _pxSub.Start();
-        }
-        public Subscription(Instrument instr, Dispatcher dsptr,  PriceSubscriptionType priceSubscriptionType, IObserver<FieldsUpdatedEventArgs> obsvr) {
-            _obsvrRaw = obsvr;
-            _pxSub = new PriceSubscription(instr, dsptr) {
-                Settings = new PriceSubscriptionSettings(PriceSubscriptionType.MarketDepth)
-            };
-            _pxSub.FieldsUpdated += PxSub_FieldsUpdated;
-            _pxSub.Start();
-        }
-
-        private void PxSub_FieldsUpdated(object sender, FieldsUpdatedEventArgs evt) {
-            if (evt.Error != null) {
-                _obsvr?.OnError(evt.Error);
-                _obsvrRaw?.OnError(evt.Error);
-            }
-            else {                   
-                _obsvr?.OnNext(evt.ToTTData());
-                _obsvrRaw?.OnNext(evt);
-            }
-        }
-
-        #region Dispose Method
-        ~Subscription() { Dispose(false); }
-        public void Dispose() { Dispose(true); GC.SuppressFinalize(this); }
-        protected virtual void Dispose(bool disposing) {
-            _pxSub.FieldsUpdated -= PxSub_FieldsUpdated;
-            _pxSub?.Dispose();
-        }
-        #endregion
-    }
-    
-    
-        static internal class TTExtention {
-        public static TTData ToTTData(this FieldsUpdatedEventArgs qt) {
+    public static class FuturesExtension
+    {
+                
+        public static TTData ToTTData(FieldsUpdatedEventArgs qt) {
             var data = new TTData() {
                 InstrumentName = qt.Fields.Instrument.Name,
                 InstrumentDetialsName = qt.Fields.Instrument.InstrumentDetails.Name,
@@ -78,12 +33,6 @@ namespace tt_v1
             }
             return data;
         }
-        
-        static void Dispose(CompositeDisposable disp) {
-            disp?.Dispose();
-            TTAPI.Shutdown();
-            Environment.Exit(0);
-        }
+
     }
-    
 }

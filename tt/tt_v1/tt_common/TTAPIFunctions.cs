@@ -4,10 +4,6 @@ using tt_net_sdk;
 
 namespace tt_v1
 {
-    // using System;
-    // using tt_net_sdk;
-    
-// ...
     
     public class TTNetApiFunctions
     {
