@@ -36,17 +36,18 @@ namespace tt_v1
             driver.start();
             waitForTTInit.WaitOne();
             
-            
-
-            var bootstrap_servers =
+            var aws_bootstrap_servers =
                 "b-1.kafka01.mb3vi8.c4.kafka.us-east-1.amazonaws.com:9092,b-2.kafka01.mb3vi8.c4.kafka.us-east-1.amazonaws.com:9092,b-3.kafka01.mb3vi8.c4.kafka.us-east-1.amazonaws.com:9092";
+            var nj_bootstrap_servers = "njxmd01.hetco.com:9092";
 
-            var kafkaClient = new KafkaClient(bootstrap_servers);
+            var awsKafkaClient = new KafkaClient(aws_bootstrap_servers);
+            var njKafkaClient = new KafkaClient(nj_bootstrap_servers);
             // kafkaClient.Run();
 
 
-            var qepSubscriber = new LiveFuturesSubscriber(kafkaClient, dispatcher);
-            qepSubscriber.start();
+            var liveFuturesSubscriber = new LiveFuturesSubscriber(awsKafkaClient, njKafkaClient, dispatcher);
+            liveFuturesSubscriber.PublishInstruments();
+            liveFuturesSubscriber.start();
 
             // var ttSettlesSubscriber = new TTSettlesSubscriber(kafkaClient, dispatcher);
             // ttSettlesSubscriber.start();

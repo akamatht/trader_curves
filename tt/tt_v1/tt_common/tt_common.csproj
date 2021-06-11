@@ -37,8 +37,8 @@
           <HintPath>..\packages\Confluent.Kafka.1.6.3\lib\net46\Confluent.Kafka.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="core-wrapper, Version=3.0.0.41, Culture=neutral, PublicKeyToken=3911050dfc6e39c6">
-          <HintPath>..\packages\TT.NET.SDK.3.0.0.41\lib\net461\core-wrapper.dll</HintPath>
+        <Reference Include="core-wrapper, Version=3.0.0.40, Culture=neutral, PublicKeyToken=3911050dfc6e39c6">
+          <HintPath>..\packages\TT.NET.SDK.3.0.0.40\lib\net461\core-wrapper.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Google.ProtocolBuffers, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589">
@@ -90,8 +90,8 @@
           <HintPath>..\packages\TimeZoneConverter.3.2.0\lib\net471\TimeZoneConverter.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="tt-net-api, Version=3.0.0.41, Culture=neutral, PublicKeyToken=3911050dfc6e39c6">
-          <HintPath>..\packages\TT.NET.SDK.3.0.0.41\lib\net461\tt-net-api.dll</HintPath>
+        <Reference Include="tt-net-api, Version=3.0.0.40, Culture=neutral, PublicKeyToken=3911050dfc6e39c6">
+          <HintPath>..\packages\TT.NET.SDK.3.0.0.40\lib\net461\tt-net-api.dll</HintPath>
           <Private>True</Private>
         </Reference>
     </ItemGroup>
@@ -116,8 +116,10 @@
       </PropertyGroup>
       <Error Condition="!Exists('..\packages\librdkafka.redist.1.6.1\build\librdkafka.redist.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\librdkafka.redist.1.6.1\build\librdkafka.redist.props'))" />
       <Error Condition="!Exists('..\packages\TT.NET.SDK.3.0.0.41\build\TT.NET.SDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TT.NET.SDK.3.0.0.41\build\TT.NET.SDK.targets'))" />
+      <Error Condition="!Exists('..\packages\TT.NET.SDK.3.0.0.40\build\TT.NET.SDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TT.NET.SDK.3.0.0.40\build\TT.NET.SDK.targets'))" />
     </Target>
     <Import Project="..\packages\TT.NET.SDK.3.0.0.41\build\TT.NET.SDK.targets" Condition="Exists('..\packages\TT.NET.SDK.3.0.0.41\build\TT.NET.SDK.targets')" />
+    <Import Project="..\packages\TT.NET.SDK.3.0.0.40\build\TT.NET.SDK.targets" Condition="Exists('..\packages\TT.NET.SDK.3.0.0.40\build\TT.NET.SDK.targets')" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">

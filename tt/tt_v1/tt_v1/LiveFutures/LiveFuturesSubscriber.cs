@@ -9,20 +9,24 @@ using System.Threading;
 using Newtonsoft.Json;
 using Subscriber;
 using tt_net_sdk;
+using tt_v1.Models;
+using tt_v1.Transformers;
 
 namespace tt_v1
 {
     public class LiveFuturesSubscriber
     {
-        private KafkaClient _kafkaClient;
+        private KafkaClient _awsKafkaClient;
+        private KafkaClient _njKafkaClient;
         private readonly WorkerDispatcher _dispatcher;
         private IDictionary<string,string> tt2qep = new Dictionary<string, string>();
         private IDictionary<string, string> qep2tt = new Dictionary<string, string>() { { "STAT", "STAT" } };
-        private CompositeDisposable disposable = new CompositeDisposable();
+        private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
-        public LiveFuturesSubscriber(KafkaClient kafkaClient, WorkerDispatcher dispatcher)
+        public LiveFuturesSubscriber(KafkaClient awsKafkaClient, KafkaClient njKafkaClient, WorkerDispatcher dispatcher)
         {
-            _kafkaClient = kafkaClient;
+            _awsKafkaClient = awsKafkaClient;
+            _njKafkaClient = njKafkaClient;
             _dispatcher = dispatcher;
         }
 
@@ -52,6 +56,22 @@ namespace tt_v1
                 throw new Exception("ERROR");
             return qry.InstrumentList;
         }
+
+        public void PublishInstruments()
+        {
+            var instruments = GetInstruments();
+            instruments.ToObservable<Instrument>()
+                .Select<Instrument, MosaicInstrument>(InstrumentTransformer.ToMosaicInstrument)
+                .Subscribe(
+                    
+                    mosInstr =>
+                    {
+                        Console.WriteLine($"Publishing instrument {mosInstr.InstrumentKey}");
+                        _njKafkaClient.Publish("dev-tt-instruments", mosInstr.InstrumentName,
+                            JsonConvert.SerializeObject(mosInstr));
+                    });
+        }
+        
 
         public void start()
         {
@@ -83,29 +103,29 @@ namespace tt_v1
                     .Subscribe(d =>
                     {
                         Console.WriteLine("Data {0} {1}", d, Thread.CurrentThread.ManagedThreadId);
-                        var ttData = FuturesExtension.ToTTData(d);
+                        var mosaicPrice = PriceTransformer.ToMosaicPrice(d);
                         // return ttData;
-                        _kafkaClient.Publish("dev-tt-prices-test", ttData.InstrumentName, JsonConvert.SerializeObject(ttData));
+                        _njKafkaClient.Publish("dev-tt-live-prices", mosaicPrice.InstrumentKey, JsonConvert.SerializeObject(mosaicPrice));
                         
                     }
                     );
                 
-                disposable.Add(kafkaPublish);
+                _disposable.Add(kafkaPublish);
     
-                var cache = new ConcurrentDictionary<string, TTData>();
-    
-                    
-                    
-                var cacheSubscription = baseSubscription
-                    .Select(f => FuturesExtension.ToTTData(f))
-                    .ObserveOn(NewThreadScheduler.Default)
-                    .Subscribe(d =>
-                    {
-                        Console.WriteLine("Caching symbol {0}", d.InstrumentName);
-                        cache[d.InstrumentName] = d;
-                    });
-                
-                disposable.Add(cacheSubscription);
+                // var cache = new ConcurrentDictionary<string, TTData>();
+                //
+                //     
+                //     
+                // var cacheSubscription = baseSubscription
+                //     .Select(f => FuturesExtension.ToTTData(f))
+                //     .ObserveOn(NewThreadScheduler.Default)
+                //     .Subscribe(d =>
+                //     {
+                //         Console.WriteLine("Caching symbol {0}", d.InstrumentName);
+                //         cache[d.InstrumentName] = d;
+                //     });
+                //
+                // disposable.Add(cacheSubscription);
 
         }
     }
