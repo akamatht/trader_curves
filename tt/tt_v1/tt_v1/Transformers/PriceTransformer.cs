@@ -3,7 +3,7 @@ using tt_v1.Models;
 
 namespace tt_v1.Transformers
 {
-    public class PriceTransformer
+    public static class PriceTransformer
     {
         public static MosaicPrice ToMosaicPrice(FieldsUpdatedEventArgs qt) {
             var data = new MosaicPrice() {

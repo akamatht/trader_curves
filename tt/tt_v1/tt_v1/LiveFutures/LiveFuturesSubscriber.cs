@@ -57,8 +57,9 @@ namespace tt_v1
             return qry.InstrumentList;
         }
 
-        public void PublishInstruments()
+        private void PublishInstruments()
         {
+            Console.WriteLine($"Begin publishing live futures instruments");
             var instruments = GetInstruments();
             instruments.ToObservable<Instrument>()
                 .Select<Instrument, MosaicInstrument>(InstrumentTransformer.ToMosaicInstrument)
@@ -67,15 +68,16 @@ namespace tt_v1
                     mosInstr =>
                     {
                         Console.WriteLine($"Publishing instrument {mosInstr.InstrumentKey}");
-                        _njKafkaClient.Publish("dev-tt-instruments", mosInstr.InstrumentName,
+                        _njKafkaClient.Publish("dev-tt-instruments", mosInstr.InstrumentKey,
                             JsonConvert.SerializeObject(mosInstr));
                     });
+            Console.WriteLine("End publishing live futures instruments");
         }
         
 
         public void start()
         {
-
+            PublishInstruments();
             var instrs = GetInstruments();
             var baseSubscription = instrs.Select(instr =>
                     {
@@ -102,7 +104,7 @@ namespace tt_v1
                     .ObserveOn(NewThreadScheduler.Default)
                     .Subscribe(d =>
                     {
-                        Console.WriteLine("Data {0} {1}", d, Thread.CurrentThread.ManagedThreadId);
+                        //Console.WriteLine("Data {0} {1}", d, Thread.CurrentThread.ManagedThreadId);
                         var mosaicPrice = PriceTransformer.ToMosaicPrice(d);
                         // return ttData;
                         _njKafkaClient.Publish("dev-tt-live-prices", mosaicPrice.InstrumentKey, JsonConvert.SerializeObject(mosaicPrice));
@@ -111,22 +113,6 @@ namespace tt_v1
                     );
                 
                 _disposable.Add(kafkaPublish);
-    
-                // var cache = new ConcurrentDictionary<string, TTData>();
-                //
-                //     
-                //     
-                // var cacheSubscription = baseSubscription
-                //     .Select(f => FuturesExtension.ToTTData(f))
-                //     .ObserveOn(NewThreadScheduler.Default)
-                //     .Subscribe(d =>
-                //     {
-                //         Console.WriteLine("Caching symbol {0}", d.InstrumentName);
-                //         cache[d.InstrumentName] = d;
-                //     });
-                //
-                // disposable.Add(cacheSubscription);
-
         }
     }
 }

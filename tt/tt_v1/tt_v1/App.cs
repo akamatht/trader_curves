@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using Newtonsoft.Json;
 using Subscriber;
 using tt_net_sdk;
+using tt_v1.Settles;
 using Dispatcher = tt_net_sdk.Dispatcher;
 
 namespace tt_v1
@@ -46,12 +47,14 @@ namespace tt_v1
 
 
             var liveFuturesSubscriber = new LiveFuturesSubscriber(awsKafkaClient, njKafkaClient, dispatcher);
-            liveFuturesSubscriber.PublishInstruments();
             liveFuturesSubscriber.start();
 
-            // var ttSettlesSubscriber = new TTSettlesSubscriber(kafkaClient, dispatcher);
-            // ttSettlesSubscriber.start();
-            
+            // var ttSettlesFuturesSubscriber = new TTSettlesSubscriber(awsKafkaClient, njKafkaClient, dispatcher, InstrumentType.Future);
+            // ttSettlesFuturesSubscriber.start();
+
+            // var ttSettlesOptionsSubscriber =
+            //     new TTSettlesSubscriber(awsKafkaClient, njKafkaClient, dispatcher, InstrumentType.Option);
+            // ttSettlesOptionsSubscriber.start();
             // Console.ReadLine();
             Console.WriteLine("{0}", Thread.CurrentThread.ManagedThreadId);
             Thread.Sleep(Timeout.Infinite);

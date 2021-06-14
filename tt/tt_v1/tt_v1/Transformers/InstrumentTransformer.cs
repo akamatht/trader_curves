@@ -18,13 +18,18 @@ namespace tt_v1.Transformers
             var mosaicInstrument = new MosaicInstrument()
             {
                InstrumentName = ttInstrument.Name,
-               InstrumentKey = ttInstrument.InstrumentDetails.Key.ToString(),
+               InstrumentDetailsName = ttInstrument.InstrumentDetails.Name,
+               InstrumentKey = ttInstrument.Key.ToString(),
                Isin = ttInstrument.InstrumentDetails.ISIN,
                TickSize = Convert.ToDouble(ttInstrument.InstrumentDetails.TickSize),
                ProductName = ttInstrument.Product.Name,
                Currency = ttInstrument.InstrumentDetails.Currency.ToString(),
                ExpirationDate = ttInstrument.InstrumentDetails.ExpirationDate,
-               
+               Type = ttInstrument.Product.Type.ToString(),
+               Market = ttInstrument.Product.Market.ToString(),
+               LastTradingDate = ttInstrument.InstrumentDetails.LastTradingDate_,
+               MaturityDate = ttInstrument.InstrumentDetails.MaturityDate,
+               LotSize = ttInstrument.InstrumentDetails.LotSize
             };
 
             if (ttInstrument.Product.Type == ProductType.MultilegInstrument)
@@ -46,18 +51,21 @@ namespace tt_v1.Transformers
                 mosaicInstrument.OptionScheme = ttInstrument.InstrumentDetails.OptionScheme.ToString();
 
                 var ttUnderlyingInstrument = ttInstrument.InstrumentDetails.UnderlyingInstrument;
-                var mosaicUnderlyingInstrument = new MosaicInstrument()
+                if (ttUnderlyingInstrument != null)
                 {
-                    InstrumentKey = ttUnderlyingInstrument.Key.ToString(),
-                    ProductName = ttUnderlyingInstrument.Product.Name,
-                    SeriesTerm = ttUnderlyingInstrument.InstrumentDetails.SeriesTerm.ToString(),
-                    Term = ttUnderlyingInstrument.InstrumentDetails.Term,
-                    Type = ttUnderlyingInstrument.Product.Type.ToString(),
-                    ExpirationDate = ttUnderlyingInstrument.InstrumentDetails.ExpirationDate,
-                    LastTradingDate = ttUnderlyingInstrument.InstrumentDetails.LastTradingDate_,
-                    MaturityDate = ttUnderlyingInstrument.InstrumentDetails.MaturityDate
-                };
-                mosaicInstrument.UnderlyingInstrument = mosaicInstrument;
+                    var mosaicUnderlyingInstrument = new MosaicInstrument()
+                    {
+                        InstrumentKey = ttUnderlyingInstrument.Key.ToString(),
+                        ProductName = ttUnderlyingInstrument.Product.Name,
+                        SeriesTerm = ttUnderlyingInstrument.InstrumentDetails.SeriesTerm.ToString(),
+                        Term = ttUnderlyingInstrument.InstrumentDetails.Term,
+                        Type = ttUnderlyingInstrument.Product.Type.ToString(),
+                        ExpirationDate = ttUnderlyingInstrument.InstrumentDetails.ExpirationDate,
+                        LastTradingDate = ttUnderlyingInstrument.InstrumentDetails.LastTradingDate_,
+                        MaturityDate = ttUnderlyingInstrument.InstrumentDetails.MaturityDate
+                    };
+                    mosaicInstrument.UnderlyingInstrument = mosaicInstrument;
+                }
 
             }
 
